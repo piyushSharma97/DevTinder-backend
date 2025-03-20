@@ -9,6 +9,11 @@ const PORT = process.env.PORT
 app.use(express.json());
 
 
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).json({ message: err.message || "Internal Server Error" });
+  })
 connectDB().then(()=>{
     try{
         app.listen(process.env.PORT,()=>{
@@ -20,3 +25,4 @@ connectDB().then(()=>{
 }).catch((err)=>{
     console.log('err',err)
 })
+
